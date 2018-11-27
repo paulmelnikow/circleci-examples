@@ -23,7 +23,19 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm test
+      - run:
+          name: Run tests
+          command: npm run jest
+
+      - run:
+          name: Check lint
+          command: npm run lint
+          when: always
+
+      - run:
+          name: Check prettier
+          command: npm run prettier
+          when: always
 
   deploy:
     docker:
@@ -32,7 +44,7 @@ jobs:
     steps:
       - run:
           name: Deploy to production
-          command: NODE_ENV=production gulp deploy
+          command: npm run deploy
 
 workflows:
   version: 2
