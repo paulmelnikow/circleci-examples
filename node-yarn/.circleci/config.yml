@@ -2,34 +2,29 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:8
 
     steps:
       - checkout
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: Install dependencies
-          command: npm install
+          command: yarn ci
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
           name: Run tests
-          command: npm run jest
-
-      - run:
-          name: Check lint
-          command: npm run lint
-          when: always
+          command: npm run test:js
 
       - run:
           name: Check prettier
