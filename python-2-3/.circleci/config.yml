@@ -4,8 +4,6 @@ jobs:
     docker:
       - image: circleci/python:2
 
-    working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -34,8 +32,6 @@ jobs:
   python3:
     docker:
       - image: circleci/python:3
-
-    working_directory: ~/repo
 
     steps:
       - checkout
